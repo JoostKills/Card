@@ -33,6 +33,16 @@
             border-radius: 20px;
             cursor: pointer;
         }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s linear forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -55,21 +65,45 @@
             document.getElementById("no-btn").style.transform = "rotate(" + (Math.random() * 20 - 10) + "deg)";
         }
 
+        function createConfetti() {
+            const colors = ['#ff69b4', '#ff1493', '#ff00ff', '#ff99cc', '#ff3366'];
+            for(let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + '%');
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
         function yes(){
             document.body.innerHTML = `
                 <style>
-                    @keyframes w {
-                        0%,100% {transform: rotate(-5deg)}
-                        50% {transform: rotate(5deg)}
+                    @keyframes celebrate {
+                        0%,100% { transform: scale(1) rotate(-5deg); }
+                        50% { transform: scale(1.2) rotate(5deg); }
                     }
                     h1 {
-                        animation: w 0.4s infinite;
+                        animation: celebrate 0.8s infinite;
                         color: #ff4466;
                         font-size: 4em;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+                        z-index: 1;
+                    }
+                    p {
+                        font-size: 1.5em;
+                        color: #ff6699;
+                        margin-top: 20px;
                     }
                 </style>
-                <h1>YAY! 💖</h1>
+                <h1>YAY! 💖🎉</h1>
+                <p>You've made me the happiest! 😍<br>Let's make amazing memories together! 🌟</p>
             `;
+            createConfetti();
         }
     </script>
 </body>
