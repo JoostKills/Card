@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #ffe6e6;
+            overflow: hidden;
+        }
+        #yes-btn {
+            background: #ff6699;
+            color: white;
+            font-size: 24px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.1s;
+            margin-bottom: 20px;
+        }
+        #no-btn {
+            background: #666;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Will you be my Valentine? 💘</h2>
+    <div>
+        <button id="yes-btn" onclick="yes()">YES!</button>
+        <button id="no-btn" onclick="no()">No</button>
+    </div>
+
+    <script>
+        let r = ["Sure?","Really?","Think...","Last chance!","💔","🥺","😈","Final?","YES!"];
+        let n = 0, s = 24;
+
+        function no(){
+            document.getElementById("no-btn").innerText = r[n];
+            n = (n + 1) % r.length;
+            s += 25;
+            document.getElementById("yes-btn").style.fontSize = s + "px";
+            document.getElementById("yes-btn").style.padding = (s/3) + "px " + (s/1.5) + "px";
+            document.getElementById("no-btn").style.transform = "rotate(" + (Math.random() * 20 - 10) + "deg)";
+        }
+
+        function yes(){
+            document.body.innerHTML = `
+                <style>
+                    @keyframes w {
+                        0%,100% {transform: rotate(-5deg)}
+                        50% {transform: rotate(5deg)}
+                    }
+                    h1 {
+                        animation: w 0.4s infinite;
+                        color: #ff4466;
+                        font-size: 4em;
+                    }
+                </style>
+                <h1>YAY! 💖</h1>
+            `;
+        }
+    </script>
+</body>
+</html>
