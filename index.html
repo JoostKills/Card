@@ -3,7 +3,7 @@
 <head>
     <style>
         body {
-            font-family: Arial;
+            font-family: 'Comic Sans MS', cursive;
             text-align: center;
             margin: 0;
             display: flex;
@@ -11,99 +11,216 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #ffe6e6;
+            background: linear-gradient(45deg, #ff99cc, #ff6699);
             overflow: hidden;
+            position: relative;
         }
+
+        h2 {
+            color: #fff;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0 0 30px 0;
+            animation: subtle-float 4s ease-in-out infinite;
+        }
+
+        @keyframes subtle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Rest of the CSS remains exactly the same */
         #yes-btn {
-            background: #ff6699;
+            background: #ff3366;
             color: white;
-            font-size: 24px;
+            font-size: 28px;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        #yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+        }
+
+        #no-btn {
+            background: #666;
+            color: white;
             padding: 15px 40px;
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            transition: 0.1s;
-            margin-bottom: 20px;
+            font-size: 20px;
+            transition: all 0.3s ease;
         }
-        #no-btn {
-            background: #666;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
+
+        #no-btn:hover {
+            transform: rotate(5deg) scale(1.1);
+            background: #ff4444;
         }
+
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 15px;
+            height: 15px;
             animation: confetti-fall 3s linear forwards;
+            z-index: 1;
+            border-radius: 50%;
+            opacity: 0.8;
         }
+
         @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
+            0% { transform: translateY(-100vh) rotate(0deg) scale(1); }
+            100% { transform: translateY(100vh) rotate(720deg) scale(1.5); }
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: rgba(255,230,230,0.95);
+            z-index: 3;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 6s infinite linear;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 1s infinite;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <h2>Will you be my Valentine? 💘</h2>
+    <div class="hearts">
+        <!-- Floating hearts background -->
+        <div class="heart" style="left: 10%">❤️</div>
+        <div class="heart" style="left: 30%">💖</div>
+        <div class="heart" style="left: 50%">💕</div>
+        <div class="heart" style="left: 70%">💞</div>
+        <div class="heart" style="left: 90%">💓</div>
+    </div>
+
+    <h2>Will You Be My Valentine? 💘🌸</h2>
     <div>
-        <button id="yes-btn" onclick="yes()">YES!</button>
-        <button id="no-btn" onclick="no()">No</button>
+        <button id="yes-btn" onclick="yes()">YES! 🎉💖</button>
+        <button id="no-btn" onclick="no()">No 😢❌</button>
+    </div>
+    
+    <div class="celebration" id="celebration">
+        <div class="sparkles" id="sparkles"></div>
+        <h1 style="color: #ff3366; font-size: 4em; animation: pulse 1s infinite;">YAY! 🎉💐</h1>
+        <!-- Removed the text here -->
     </div>
 
     <script>
-        let r = ["Sure?","Really?","Think...","Last chance!","💔","🥺","😈","Final?","YES!"];
-        let n = 0, s = 24;
+        let responses = ["Really? 😢", "Think Again 💔", "Last Chance! 🥺", "Don't Leave! 😭", 
+                       "I'll Cry! 😭", "Please? 🥺", "Final Answer? 💘", "Say Yes! 😍"];
+        let index = 0, yesSize = 28;
 
         function no(){
-            document.getElementById("no-btn").innerText = r[n];
-            n = (n + 1) % r.length;
-            s += 25;
-            document.getElementById("yes-btn").style.fontSize = s + "px";
-            document.getElementById("yes-btn").style.padding = (s/3) + "px " + (s/1.5) + "px";
-            document.getElementById("no-btn").style.transform = "rotate(" + (Math.random() * 20 - 10) + "deg)";
+            document.getElementById("no-btn").innerHTML = responses[index];
+            index = (index + 1) % responses.length;
+            yesSize += 30;
+            document.getElementById("yes-btn").style.fontSize = yesSize + "px";
+            document.getElementById("yes-btn").style.padding = (yesSize/3) + "px " + (yesSize/1.5) + "px";
+            document.getElementById("no-btn").style.transform = 
+                `rotate(${Math.random() * 20 - 10}deg) scale(${Math.random() * 0.2 + 0.9})`;
         }
 
         function createConfetti() {
             const colors = ['#ff69b4', '#ff1493', '#ff00ff', '#ff99cc', '#ff3366'];
-            for(let i = 0; i < 150; i++) {
+            for(let i = 0; i < 250; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.animationDelay = Math.random() * 2 + 's';
-                confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + '%');
+                confetti.style.transform = `scale(${Math.random() + 0.5})`;
                 document.body.appendChild(confetti);
-                
                 setTimeout(() => confetti.remove(), 3000);
             }
         }
 
+        function createSparkles() {
+            const sparkles = document.getElementById('sparkles');
+            for(let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1 + 's';
+                sparkles.appendChild(sparkle);
+            }
+        }
+
         function yes(){
-            document.body.innerHTML = `
-                <style>
-                    @keyframes celebrate {
-                        0%,100% { transform: scale(1) rotate(-5deg); }
-                        50% { transform: scale(1.2) rotate(5deg); }
-                    }
-                    h1 {
-                        animation: celebrate 0.8s infinite;
-                        color: #ff4466;
-                        font-size: 4em;
-                        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-                        z-index: 1;
-                    }
-                    p {
-                        font-size: 1.5em;
-                        color: #ff6699;
-                        margin-top: 20px;
-                    }
-                </style>
-                <h1>YAY! 💖🎉</h1>
-                <p>You've made me the happiest! 😍<br>Let's make amazing memories together! 🌟</p>
-            `;
+            document.querySelector('h2').style.display = 'none';
+            document.querySelector('div').style.display = 'none';
+            document.getElementById("celebration").style.display = "flex";
             createConfetti();
+            createSparkles();
+            
+            // Add floating hearts animation
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.innerHTML = ['❤️', '💖', '💕', '💞', '💓'][Math.floor(Math.random()*5)];
+                document.querySelector('.hearts').appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }, 300);
         }
     </script>
 </body>
